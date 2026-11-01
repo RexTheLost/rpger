@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rpg'er Downloads</title>
+<meta name="description" content="Download the newest Rpg'er test build for PC, Android and Meta Quest.">
+<style>
+  :root {
+    --bg: #15120f; --panel: #221d18; --edge: #a9874a; --text: #efe6d6; --muted: #b8ab95; --accent: #e0b85a;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f4ede0; --panel: #fffaf1; --edge: #a07c3c; --text: #2a221a; --muted: #6b5d4a; --accent: #8a5f12; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.55 Georgia, "Times New Roman", serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 2.6rem; margin: 0 0 4px; letter-spacing: 0.02em; }
+  .tag { color: var(--muted); margin: 0 0 28px; }
+  .version { color: var(--accent); font-weight: bold; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .card { background: var(--panel); border: 2px solid var(--edge); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .card h2 { margin: 0; font-size: 1.25rem; }
+  .card p { margin: 0; color: var(--muted); font-size: 0.95rem; flex: 1; }
+  a.button { display: inline-block; text-align: center; background: var(--accent); color: #1a140c; text-decoration: none; font-weight: bold;
+             padding: 10px 14px; border-radius: 6px; }
+  a.button:hover { filter: brightness(1.1); }
+  section { margin-top: 34px; }
+  h3 { margin: 0 0 8px; }
+  pre#notes { white-space: pre-wrap; background: var(--panel); border: 1px solid var(--edge); border-radius: 8px; padding: 14px; font: inherit; }
+  ul { padding-left: 20px; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 0.85rem; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Rpg'er</h1>
+  <p class="tag">A top-down co-op dungeon RPG. Newest test build: <span class="version" id="version">loading…</span></p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>PC (Windows)</h2>
+      <p>Unzip and run <b>Rpger-demo.exe</b>. "Play in VR.bat" starts it with a PC VR headset.</p>
+      <a class="button" href="https://github.com/RexTheLost/rpger/releases/latest/download/Rpger-demo-pc.zip">Download PC</a>
+    </div>
+    <div class="card">
+      <h2>Android</h2>
+      <p>Open the APK on your phone and allow installs from your browser when asked.</p>
+      <a class="button" href="https://github.com/RexTheLost/rpger/releases/latest/download/Rpger-demo.apk">Download APK</a>
+    </div>
+    <div class="card">
+      <h2>Meta Quest</h2>
+      <p>Unzip, then sideload <b>Rpger-VR-quest.apk</b> with SideQuest (developer mode on). The README inside explains.</p>
+      <a class="button" href="https://github.com/RexTheLost/rpger/releases/latest/download/Rpger-VR-quest.zip">Download Quest</a>
+    </div>
+  </div>
+
+  <section>
+    <h3>What's new</h3>
+    <pre id="notes">Loading the latest release notes…</pre>
+  </section>
+
+  <section>
+    <h3>Notes</h3>
+    <ul>
+      <li>These links always give the newest build. The game also tells you when a newer one is out.</li>
+      <li>Your saves stay on your device when you update.</li>
+      <li>Older builds: <a href="https://github.com/RexTheLost/rpger/releases">all releases</a>.</li>
+    </ul>
+  </section>
+  <footer>Test builds. Things may break.</footer>
+</main>
+<script>
+  fetch("version.json", {cache: "no-store"}).then(r => r.json()).then(v => {
+    document.getElementById("version").textContent = "v" + v.version;
+  }).catch(() => { document.getElementById("version").textContent = "see releases"; });
+  fetch("https://api.github.com/repos/RexTheLost/rpger/releases/latest").then(r => r.json()).then(rel => {
+    document.getElementById("notes").textContent = (rel.name ? rel.name + "\n\n" : "") + (rel.body || "No notes.");
+  }).catch(() => { document.getElementById("notes").textContent = "See the releases page."; });
+</script>
+</body>
+</html>
